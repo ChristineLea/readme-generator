@@ -1,14 +1,77 @@
 // TODO: Create a function that returns a license badge based on which license is passed in
 // If there is no license, return an empty string
-function renderLicenseBadge(license) {}
+
+function renderLicenseBadge(license) {
+	switch (license) {
+		case "MIT":
+			license = `${license}-yellow`;
+			break;
+		case "GPL_v2":
+			license = `${license}-blue`;
+			break;
+		case "Apache_2.0":
+			license = `${license}-blue`;
+			break;
+		case "GPLv3":
+			license = `${license}-blue`;
+			break;
+		case "BSD_3--Clause":
+			license = `${license}-orange`;
+			break;
+		case "EPL_1.0":
+			license = `${license}-red`;
+			break;
+		default:
+			license = "";
+			break;
+	}
+	return license;
+}
+
 
 // TODO: Create a function that returns the license link
 // If there is no license, return an empty string
-function renderLicenseLink(license) {}
+function renderLicenseLink(license) {
+	switch (license) {
+		case "MIT":
+			license = "https://opensource.org/licenses/MIT";
+			break;
+		case "GPL_v2":
+			license =
+				"https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html";
+			break;
+		case "Apache_2.0":
+			license = "https://opensource.org/licenses/Apache-2.0";
+			break;
+		case "GPLv3":
+			license = "https://www.gnu.org/licenses/gpl-3.0";
+			break;
+		case "BSD_3--Clause":
+			license = "https://opensource.org/licenses/BSD-3-Clause";
+			break;
+		case "EPL_1.0":
+			license = "https://opensource.org/licenses/EPL-1.0";
+			break;
+		default:
+			license = "";
+			break;
+	}
+	return license;
+}
 
 // TODO: Create a function that returns the license section of README
 // If there is no license, return an empty string
-function renderLicenseSection(license) {}
+function renderLicenseSection(license) {
+	if (license !== "") {
+		license =
+			`[![License: MIT](https://img.shields.io/badge/License-` +
+			renderLicenseBadge(license) +
+			`.svg)](` +
+			renderLicenseLink(license) +
+			`)`;
+	}
+	return license;
+}
 
 // TODO: Create a function to generate markdown for README
 function generateMarkdown(data) {

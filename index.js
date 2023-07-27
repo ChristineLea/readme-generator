@@ -133,29 +133,23 @@ function writeToFile(fileName, data) {
 	});
 }
 
-// GitHub Profile
-//  FETCH the URL of the users GitHub profile using GitHub API
-// use async/await to wait for the URL link then return the link to be used in the markdown
-async function getUser(username) {
-	const requestUrl = `https://api.github.com/users/${username}`;
-	const response = await fetch(requestUrl);
-	const githubResponse = await response.json();
-	return githubResponse;
-}
-
-// Initialise the application
-// Async / Await to prompt the user with the questions array & await for all responses/answers
-// Pass the github key's value to the API to fetch the URL to their profile
-// Then call back function used to generate the markdown with the data recieved from the user
-// which is then used to call the writeToFile function which will generate the end README.md file
 async function init() {
+	// on init, pass the questions array to the prompt() and await for user input
 	const data = await inquirer.prompt(questions);
 	console.log("\x1b[33m%s \x1b[0m", "Generating your README file ... ");
-	getUser(data.github).then((githubResponse) => {
-		data.github = githubResponse.html_url;
-		const generateMarkdown = modules(data);
-		writeToFile("./output/README.md", generateMarkdown);
-	});
+
+	// extract the github key's value and pass to GitHub API to fetch the link to user profile
+	const getUser = await fetch(`https://api.github.com/users/${data.github}`);
+
+	// extract the value from the return response object & update the value in the answers/data object
+	const requestResponse = await getUser.json();
+	data.github = requestResponse.html_url;
+
+	// Then call back function used to generate the markdown with the data recieved from the user
+	// which is then used to call the writeToFile function which will generate the end README.md file
+	const generateMarkdown = modules(data);
+
+	writeToFile("./output/README.md", generateMarkdown);
 }
 
 // Function call to initialize app

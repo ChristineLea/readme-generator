@@ -130,6 +130,15 @@ function writeToFile(fileName, data) {
 			  );
 	});
 }
+
+// GitHub Profile
+async function getUser(username) {
+	const requestUrl = `https://api.github.com/users/${username}`;
+	const response = await fetch(requestUrl);
+	const githubResponse = await response.json();
+	return githubResponse;
+}
+
 // TODO: Create a function to initialize app
 async function init() {
 	const data = await inquirer.prompt(questions);

@@ -1,11 +1,12 @@
-// TODO: Include packages needed for this application
+// Packages required for the README generator
 const inquirer = require("inquirer");
 const fs = require("fs");
 const modules = require("./utils/generateMarkdown.js");
 
-// TODO: Create an array of questions for user input
-
+// Questions array for user input. Will be passed in to the inquirer.prompt() function
 const questions = [
+	// Color is added to the messages to highlight the main information expected from user input ... \x1b[46m as an example
+	// validate checks that a user has entered text & if not alerts them in red highlight color
 	{
 		type: "input",
 		message:
@@ -119,7 +120,8 @@ const questions = [
 	},
 ];
 
-// TODO: Create a function to write README file
+// Write the README.md file using node in-build file system npm
+// highlight color added - red for error & green for success
 function writeToFile(fileName, data) {
 	fs.writeFile(fileName, data, (err) => {
 		err
@@ -132,6 +134,8 @@ function writeToFile(fileName, data) {
 }
 
 // GitHub Profile
+//  FETCH the URL of the users GitHub profile using GitHub API
+// use async/await to wait for the URL link then return the link to be used in the markdown
 async function getUser(username) {
 	const requestUrl = `https://api.github.com/users/${username}`;
 	const response = await fetch(requestUrl);
@@ -139,7 +143,11 @@ async function getUser(username) {
 	return githubResponse;
 }
 
-// TODO: Create a function to initialize app
+// Initialise the application
+// Async / Await to prompt the user with the questions array & await for all responses/answers
+// Pass the github key's value to the API to fetch the URL to their profile
+// Then call back function used to generate the markdown with the data recieved from the user
+// which is then used to call the writeToFile function which will generate the end README.md file
 async function init() {
 	const data = await inquirer.prompt(questions);
 	console.log("\x1b[33m%s \x1b[0m", "Generating your README file ... ");

@@ -131,7 +131,15 @@ function writeToFile(fileName, data) {
 	});
 }
 // TODO: Create a function to initialize app
-function init() {}
+async function init() {
+	const data = await inquirer.prompt(questions);
+	console.log("\x1b[33m%s \x1b[0m", "Generating your README file ... ");
+	getUser(data.github).then((githubResponse) => {
+		data.github = githubResponse.html_url;
+		const generateMarkdown = modules(data);
+		writeToFile("./output/README.md", generateMarkdown);
+	});
+}
 
 // Function call to initialize app
 init();
